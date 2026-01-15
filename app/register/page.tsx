@@ -152,6 +152,7 @@ function RegistrationForm({ onRegister, setUploadedFiles }: { onRegister: (paylo
       if (uploadedFiles.citizenshipDocument) uploadPayload.citizenshipDocumentPath = uploadedFiles.citizenshipDocument;
       if (uploadedFiles.characterCertificate) uploadPayload.characterCertificatePath = uploadedFiles.characterCertificate;
       if (uploadedFiles.provisionalAdmitCard) uploadPayload.provisionalAdmitCardPath = uploadedFiles.provisionalAdmitCard;
+      if (uploadedFiles.marksheetDocument) uploadPayload.marksheetPath = uploadedFiles.marksheetDocument;
 
       let documentsId = null;
       if (Object.keys(uploadPayload).length > 0) {
@@ -205,7 +206,7 @@ function RegistrationForm({ onRegister, setUploadedFiles }: { onRegister: (paylo
           
           addresses: [
             {
-              sameAsPermanent: false,
+              sameAsPermanent: data.temporaryAddress?.sameAsPermanent ? true : false,
               province: data.permanentAddress?.province || "",
               district: data.permanentAddress?.district || "",
               municipalityVDC: data.permanentAddress?.municipalityVDC || "",
@@ -214,7 +215,7 @@ function RegistrationForm({ onRegister, setUploadedFiles }: { onRegister: (paylo
               houseNumber: data.permanentAddress?.houseNumber || "",
             },
             ...(data.temporaryAddress && !data.temporaryAddress.sameAsPermanent ? [{
-              sameAsPermanent: true,
+              sameAsPermanent: false,
               province: data.temporaryAddress?.province || "",
               district: data.temporaryAddress?.district || "",
               municipalityVDC: data.temporaryAddress?.municipalityVDC || "",
@@ -230,7 +231,8 @@ function RegistrationForm({ onRegister, setUploadedFiles }: { onRegister: (paylo
             institutionName: h.institutionName || "",
             passedYear: Number(h.passedYear) || 0,
             gpaorDivision: h.gpaorDivision || "",
-            marksheetPath: "",
+           
+            createdAt : data.dateOfApplication || new Date().toISOString().split('T')[0],
           })),
           
           enrollments: [{
@@ -595,6 +597,7 @@ function RegistrationForm({ onRegister, setUploadedFiles }: { onRegister: (paylo
           <FileUpload label="Citizenship Document (PDF/JPG/PNG, Max 5MB)" accept="application/pdf,image/jpeg,image/png" maxSizeMB={5} onFileChange={(file) => setUploadedFilesState(prev => ({ ...prev, citizenshipDocument: file }))} />
           <FileUpload label="Character Certificate (PDF, Max 2MB)" accept="application/pdf" maxSizeMB={2} onFileChange={(file) => setUploadedFilesState(prev => ({ ...prev, characterCertificate: file }))} />
           <FileUpload label="Provisional/Admit Card (Optional, PDF/JPG/PNG, Max 5MB)" accept="application/pdf,image/jpeg,image/png" maxSizeMB={5} onFileChange={(file) => setUploadedFilesState(prev => ({ ...prev, provisionalAdmitCard: file }))} />
+          <FileUpload label="Marksheet Document (PDF, Max 2MB)" accept="application/pdf" maxSizeMB={2} onFileChange={(file) => setUploadedFilesState(prev => ({ ...prev, marksheetDocument: file }))} />
         </div>
       </div>
 

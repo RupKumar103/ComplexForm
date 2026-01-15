@@ -9,6 +9,7 @@ export const formSchema=z.object({
     citizenshipDocumentPath: z.union([z.instanceof(File), z.string()]).optional(),
     characterCertificatePath: z.union([z.instanceof(File), z.string().min(1, { message: "Character certificate upload is required" })]),
     provisionalAdmitCardPath: z.union([z.instanceof(File), z.string()]).optional(),
+    marksheetPath: z.union([z.instanceof(File), z.string()]).optional(),
 });
 
 export type formInputSchema= z.infer<typeof formSchema>;
@@ -61,8 +62,8 @@ const AcademicHistoryEntrySchema = z.object({
   boardUniversity: z.string().min(1, { message: "Board/University is required" }),
   institutionName: z.string().min(1, { message: "Institution name is required" }),
   passedYear: z.union([z.number(), z.string()]).optional(),
-  gpaorDivision: z.string().min(1, { message: "Division/GPA is required" }),
-  marksheetId: z.number().optional(),
+  gpaorDivision: z.string().min(1, { message: "Division/GPA is required" })
+ 
 });
 
 const EnrollmentInfoSchema = z.object({
